@@ -1,0 +1,81 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "k400",
+            "type": "debugpy",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "torch.distributed.launch",
+            "justMyCode": true,
+            "args": [
+                "--nproc_per_node", "1",
+                "--master_port", "4321",
+                "/data/jong980812/project/VideoMAE/run_class_finetuning.py",
+                "--model", "vit_base_patch16_224",
+                "--data_set", "Kinetics-400",
+                "--nb_classes", "400",
+                "--finetune", "/data/jong980812/project/VideoMAE/k400_pretrain_base_patch16_224_frame_16x5.pth",
+                "--log_dir", "./debug",
+                "--output_dir", "./debug",
+                "--anno_path","/data/jong980812/project/VideoMAE/video_annotation/kinetics100",
+                "--batch_size", "8",
+                "--num_sample", "1",
+                "--input_size", "224",
+                "--short_side_size", "224",
+                "--save_ckpt_freq", "10",
+                "--num_frames", "16",
+                "--sampling_rate", "4",
+                "--opt", "adamw",
+                "--lr", "1e-1",
+                "--opt_betas", "0.9","0.999",
+                "--weight_decay", "0.05",
+                "--epochs", "100",
+                "--dist_eval",
+                "--test_num_segment", "5",
+                "--test_num_crop", "3",
+                "--enable_deepspeed"
+            ]
+        },
+        {
+            "name": "AIM",
+            "type": "debugpy",
+            "request": "launch",
+            "console": "integratedTerminal",
+            "module": "torch.distributed.launch",
+            "justMyCode": true,
+            "args": [
+                "--nproc_per_node", "1",
+                "--master_port", "4321",
+                "/data/jong980812/project/VideoMAE/run_class_finetuning.py",
+                "--model", "AIM",
+                "--data_set", "Kinetics-100",
+                "--nb_classes", "100",
+                "--log_dir", "./debug",
+                "--output_dir", "./debug",
+                "--anno_path","/data/jong980812/project/VideoMAE/video_annotation/kinetics100",
+                "--batch_size", "10",
+                "--num_sample", "1",
+                "--input_size", "224",
+                "--short_side_size", "224",
+                "--save_ckpt_freq", "10",
+                "--num_frames", "16",
+                "--sampling_rate", "4",
+                "--opt", "adamw",
+                "--lr", "1e-2",
+                "--opt_betas", "0.9","0.999",
+                "--weight_decay", "0.05",
+                "--epochs", "100",
+                "--dist_eval",
+                "--test_num_segment", "5",
+                "--test_num_crop", "3",
+                "--enable_deepspeed",
+                "--unfreeze_layers","head","Adapter","ln_post"
+                
+            ]
+        }
+    ]
+}
